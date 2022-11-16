@@ -61,7 +61,10 @@ echo 'curl https://raw.githubusercontent.com/rickyking/sagemaker-toolset/main/sa
 # set up micromamba
 echo '# set up micromamba' >> on-start.sh
 echo 'export MAMBA_ROOT_PREFIX="/home/ec2-user/SageMaker/.persisted_conda"' >> on-start.sh
-echo 'curl micro.mamba.pm/install.sh | bash' >> on-start.sh
+echo 'cd /home/ec2-user/' >> on-start.sh
+echo 'sudo -u ec2-user curl micro.mamba.pm/install.sh --output install.sh' >> on-start.sh
+echo 'chmod +x install.sh' >> on-start.sh
+echo 'sudo -u ec2-user bash install.sh' >> on-start.sh
 
 echo "Uploading on-start.sh..."
 # update the lifecycle configuration config with updated on-start.sh script
