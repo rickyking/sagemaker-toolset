@@ -66,6 +66,17 @@ echo 'sudo -u ec2-user curl micro.mamba.pm/install.sh --output install.sh' >> on
 echo 'chmod +x install.sh' >> on-start.sh
 echo 'sudo -u ec2-user bash install.sh' >> on-start.sh
 
+# set up GH
+echo 'sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo' >> on-start.sh
+echo 'sudo yum install -y gh' >> on-start.sh
+
+# set up Git
+echo 'sudo -u ec2-user git config --global user.email "yi.jin@riotinto.com"' >> on-start.sh
+echo 'sudo -u ec2-user git config --global user.name "Yi Jin"' >> on-start.sh
+
+# set up dvc
+echo 'sudo -u ec2-user micromamba install -c conda-forge dvc-s3' >> on-start.sh
+
 echo "Uploading on-start.sh..."
 # update the lifecycle configuration config with updated on-start.sh script
 aws sagemaker update-notebook-instance-lifecycle-config \
