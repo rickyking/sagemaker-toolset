@@ -25,3 +25,8 @@ sudo -u ec2-user git config --global user.email "yi.jin@riotinto.com"
 
 # set up dvc
 # sudo -u ec2-user /home/ec2-user/.local/bin/micromamba install -c conda-forge dvc-s3 -y
+
+# set up tailscale
+sudo yum-config-manager -y --add-repo https://pkgs.tailscale.com/stable/amazon-linux/2/tailscale.repo
+sudo yum install tailscale -y
+sudo systemctl enable --now tailscaled
