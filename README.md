@@ -67,15 +67,30 @@ echo 'chmod +x install.sh' >> on-start.sh
 echo 'sudo -u ec2-user bash install.sh' >> on-start.sh
 
 # set up GH
+echo '# setup GH' >> on-start.sh
 echo 'sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo' >> on-start.sh
 echo 'sudo yum install -y gh' >> on-start.sh
 
 # set up Git
+echo 'Set up Git' >> on-start.sh
 echo 'sudo -u ec2-user git config --global user.email "yi.jin@riotinto.com"' >> on-start.sh
 echo 'sudo -u ec2-user git config --global user.name "Yi Jin"' >> on-start.sh
 
 # set up dvc
-echo 'sudo -u ec2-user micromamba install -c conda-forge dvc-s3' >> on-start.sh
+# echo 'sudo -u ec2-user micromamba install -c conda-forge dvc-s3' >> on-start.sh
+
+# set up tailscale
+echo '# setup tailscale' >> on-start.sh
+echo 'sudo yum-config-manager -y --add-repo https://pkgs.tailscale.com/stable/amazon-linux/2/tailscale.repo' >> on-start.sh
+echo 'sudo yum install tailscale -y' >> on-start.sh
+echo 'sudo systemctl enable --now tailscaled' >> on-start.sh
+echo 'sudo tailscale up --authkey TAILSCALE_KEY' >> on-start.sh
+
+# make code cli available
+echo '# setup code cli' >> on-start.sh
+echo 'sudo -u ec2-user curl -Lk "https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64" --output /home/ec2-user/vscode_cli.tar.gz' >> on-start.sh
+echo 'sudo -u ec2-user tar -xf /home/ec2-user/vscode_cli.tar.gz -C /home/ec2-user/' >> on-start.sh
+
 
 echo "Uploading on-start.sh..."
 # update the lifecycle configuration config with updated on-start.sh script
